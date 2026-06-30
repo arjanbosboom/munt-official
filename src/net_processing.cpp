@@ -3069,13 +3069,6 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         // Get number of headers and check against maximum allowed
         unsigned int nCount = ReadCompactSize(vRecv);
 
-        // Extra logging with peer starting height and number of headers received
-        LogPrint(BCLog::NET,
-            "Received reverse headers peer=%d startheight=%d count=%u\n",
-            pfrom->GetId(),
-            pfrom->nStartingHeight,
-            nCount);
-
         if (nCount > MAX_RHEADERS_RESULTS)
         {
             LOCK(cs_main);
@@ -3211,22 +3204,14 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         // request more reverse headers if there is still a gap between the chain tip and the reverse headers
         if (headerGap > 0)
         {
-            // get logstate for logging purposes, not used for anything else
+            // get nodestate to set request/response timeout
             CNodeState* nodestate  = State(pfrom->GetId());
 
-            LogPrintf("sending GETRHEADERS to peer=%d getrheaders_startheight=%d count=%d peer_startheight=%d fReverseHeadersSyncStarted=%d header_gap=%d\n",
-                      pfrom->GetId(), lastCheckPointHeight - (int)vReverseHeaders.size(),
-                      std::min((unsigned int)headerGap, MAX_RHEADERS_RESULTS), pfrom->nStartingHeight,
-                      (nodestate  ? nodestate ->fRHeadersSyncStarted : false), headerGap);
             LogPrint(BCLog::NET, "more reverse getrheaders (%d) to peer=%d (startheight:%d)\n",
                      lastCheckPointHeight-(int)vReverseHeaders.size(), pfrom->GetId(), pfrom->nStartingHeight);
             
+            // set new header request/response timeout
             nodestate->nHeadersSyncTimeout = GetTimeMicros() + HEADERS_DOWNLOAD_RESPONSE_TIMEOUT;
-
-            LogPrint(BCLog::NET,
-                "Reset reverse header timeout peer=%d timeout=%lld\n",
-                pfrom->GetId(),
-                (long long)nodestate->nHeadersSyncTimeout);
 
             connman.PushMessage(pfrom, msgMaker.Make(NetMsgType::GETRHEADERS,
                                                      uint32_t(lastCheckPointHeight-vReverseHeaders.size()),
@@ -3808,10 +3793,6 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
 
                 int headerGap = lastCheckPointHeight - pindexBestHeader->nHeight - (int)vReverseHeaders.size();
 
-                LogPrintf("sending GETRHEADERS to peer=%d getrheaders_startheight=%d count=%d peer_startheight=%d fReverseHeadersSyncStarted=%d header_gap=%d\n",
-                          pto->GetId(), lastCheckPointHeight - (int)vReverseHeaders.size(),
-                          std::min((unsigned int)headerGap, MAX_RHEADERS_RESULTS), pto->nStartingHeight,
-                          state.fRHeadersSyncStarted, headerGap);
                 connman.PushMessage(pto, msgMaker.Make(NetMsgType::GETRHEADERS,
                                                        uint32_t(lastCheckPointHeight-vReverseHeaders.size()),
                                                        uint32_t(std::min((unsigned int)headerGap, MAX_RHEADERS_RESULTS))));
@@ -4190,8 +4171,6 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
         // Check partial sync header request/response timeout
         if (state.fPartialSyncStarted && state.nPartialHeadersSyncTimeout < std::numeric_limits<int64_t>::max() && nNow > state.nPartialHeadersSyncTimeout)
         {
-            LogPrintf("Header timeout reason for peer=%d: partial sync header response timeout expired (fPartialSyncStarted=%d, timeout=%d, now=%d)\n",
-                      pto->GetId(), state.fPartialSyncStarted, state.nPartialHeadersSyncTimeout, nNow);
             LogPrintf("Timeout downloading headers from peer=%d, disconnecting\n", pto->GetId());
             pto->fDisconnect = true;
             state.nPartialHeadersSyncTimeout = std::numeric_limits<int64_t>::max();
@@ -4201,8 +4180,6 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
         // Check normal sync header request/response timeout
         if ((state.fSyncStarted || state.fRHeadersSyncStarted) && state.nHeadersSyncTimeout < std::numeric_limits<int64_t>::max() && nNow > state.nHeadersSyncTimeout)
         {
-            LogPrintf("Header timeout reason for peer=%d: header response timeout expired (fSyncStarted=%d, fReverseHeadersSyncStarted=%d, timeout=%d, now=%d)\n",
-                      pto->GetId(), state.fSyncStarted, state.fRHeadersSyncStarted, state.nHeadersSyncTimeout, nNow);
             LogPrintf("Timeout downloading headers from peer=%d, disconnecting\n", pto->GetId());
             pto->fDisconnect = true;
             state.nHeadersSyncTimeout = std::numeric_limits<int64_t>::max();
