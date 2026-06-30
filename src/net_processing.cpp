@@ -3068,6 +3068,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
 
         // Get number of headers and check against maximum allowed
         unsigned int nCount = ReadCompactSize(vRecv);
+
         if (nCount > MAX_RHEADERS_RESULTS)
         {
             LOCK(cs_main);
@@ -3203,8 +3204,15 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         // request more reverse headers if there is still a gap between the chain tip and the reverse headers
         if (headerGap > 0)
         {
+            // get nodestate to set request/response timeout
+            CNodeState* nodestate  = State(pfrom->GetId());
+
             LogPrint(BCLog::NET, "more reverse getrheaders (%d) to peer=%d (startheight:%d)\n",
                      lastCheckPointHeight-(int)vReverseHeaders.size(), pfrom->GetId(), pfrom->nStartingHeight);
+            
+            // set new header request/response timeout
+            nodestate->nHeadersSyncTimeout = GetTimeMicros() + HEADERS_DOWNLOAD_RESPONSE_TIMEOUT;
+
             connman.PushMessage(pfrom, msgMaker.Make(NetMsgType::GETRHEADERS,
                                                      uint32_t(lastCheckPointHeight-vReverseHeaders.size()),
                                                      uint32_t(std::min((unsigned int)headerGap, MAX_RHEADERS_RESULTS))));
