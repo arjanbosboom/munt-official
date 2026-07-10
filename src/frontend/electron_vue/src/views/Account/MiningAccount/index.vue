@@ -19,13 +19,13 @@
               </div>
               <div class="action-row" v-if="!editMiningAddress">
                 <div @click="copyToClipboard" class="action-icon">
-                  <fa-icon :icon="['fal', 'copy']" />
+                  <fa-icon :icon="['fas', 'copy']" />
                 </div>
                 <div @click="resetOverrideAddress" class="action-icon" v-if="usingOverride">
-                  <fa-icon :icon="['fal', 'undo']" />
+                  <fa-icon :icon="['fas', 'undo']" />
                 </div>
                 <div @click="editAddress" class="action-icon">
-                  <fa-icon :icon="['fal', 'pen']" />
+                  <fa-icon :icon="['fas', 'pen']" />
                 </div>
               </div>
             </div>
@@ -83,7 +83,7 @@
                 v-if="currentMemorySize < maximumMemory"
                 class="warning"
                 :title="$t('mining.warning_performance')"
-                :icon="['fal', 'fa-exclamation-triangle']"
+                :icon="['fas', 'fa-exclamation-triangle']"
               ></fa-icon>
             </div>
             <div class="flex-1 align-right">
@@ -127,9 +127,9 @@
 
     <portal to="footer-slot">
       <div style="display: flex">
-        <footer-button title="buttons.info" :icon="['fal', 'info-circle']" routeName="account" @click="routeTo" />
-        <footer-button title="buttons.transactions" :icon="['far', 'list-ul']" routeName="transactions" @click="routeTo" />
-        <footer-button title="buttons.send" :icon="['fal', 'arrow-from-bottom']" routeName="send-saving" @click="routeTo" />
+        <footer-button title="buttons.info" :icon="['fas', 'info-circle']" routeName="account" @click="routeTo" />
+        <footer-button title="buttons.transactions" :icon="['fas', 'list-ul']" routeName="transactions" @click="routeTo" />
+        <footer-button title="buttons.send" :icon="['fas', 'arrow-from-bottom']" routeName="send-saving" @click="routeTo" />
       </div>
     </portal>
   </div>

@@ -7,7 +7,7 @@
         </h4>
         <div class="mutation-row flex-row" @click="showTransactionDetails(mutation)" :class="mutationRowClass(mutation.txHash)">
           <div class="icon">
-            <fa-icon :icon="['fal', mutationIcon(mutation)]" />
+            <fa-icon :icon="['fas', mutationIcon(mutation)]" />
           </div>
           <div class="time">{{ formatTime(mutation.timestamp) }}</div>
           <div class="tx-details">

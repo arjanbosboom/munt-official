@@ -1,9 +1,9 @@
 <template>
   <div class="debug-console flex-col" v-if="show">
     <div class="output-buttons">
-      <fa-icon :icon="['fal', 'search-minus']" class="button" @click="decreaseFontSize" />
-      <fa-icon :icon="['fal', 'search-plus']" class="button" @click="increaseFontSize" />
-      <fa-icon :icon="['fal', 'eraser']" class="button" @click="clearOutput" />
+      <fa-icon :icon="['fas', 'search-minus']" class="button" @click="decreaseFontSize" />
+      <fa-icon :icon="['fas', 'search-plus']" class="button" @click="increaseFontSize" />
+      <fa-icon :icon="['fas', 'eraser']" class="button" @click="clearOutput" />
     </div>
 
     <div ref="output" class="output scrollable" :style="outputStyle">
@@ -88,7 +88,7 @@ export default {
       }, 0);
     },
     getIcon(type) {
-      return ["fal", `angle-double-${type === "command" ? "left" : "right"}`];
+      return ["fas", `angle-double-${type === "command" ? "left" : "right"}`];
     },
     async onRpcInputKeyDown(e) {
       this.autocomplete.disabled = false;

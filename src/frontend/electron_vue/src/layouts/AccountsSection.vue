@@ -5,7 +5,7 @@
       <div v-for="category in categories" :key="category">
         <div class="category flex-row">
           <div class="toggle" @click="toggleCategory(category)">
-            <fa-icon :icon="['fal', getCategoryToggleIcon(category)]" />
+            <fa-icon :icon="['fas', getCategoryToggleIcon(category)]" />
           </div>
           <div class="info" @click="toggleCategory(category)">
             <div class="title ellipsis">
@@ -15,7 +15,7 @@
           </div>
           <div class="add">
             <div class="button" @click="addAccountFor(category)">
-              <fa-icon :icon="['fal', 'plus']" />
+              <fa-icon :icon="['fas', 'plus']" />
             </div>
           </div>
         </div>

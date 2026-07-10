@@ -18,13 +18,13 @@
       <section class="footer flex-row">
         <div class="status" />
         <div class="button" @click="handleWalletLock">
-          <fa-icon :icon="['fal', lockIcon]" />
+          <fa-icon :icon="['fas', lockIcon]" />
         </div>
         <div v-if="!isSPV" class="button" @click="showMining">
-          <fa-icon :icon="['fal', 'gem']" />
+          <fa-icon :icon="['fas', 'gem']" />
         </div>
         <div class="button" @click="showSettings">
-          <fa-icon :icon="['fal', 'user-circle']" />
+          <fa-icon :icon="['fas', 'user-circle']" />
         </div>
       </section>
     </section>
@@ -38,9 +38,9 @@
       </section>
       <section class="footer">
         <div v-if="isSingleAccount" style="display: flex">
-          <footer-button title="buttons.transactions" :icon="['far', 'list-ul']" routeName="account" @click="routeTo" />
-          <footer-button title="buttons.send" :icon="['fal', 'arrow-from-bottom']" routeName="send" @click="routeTo" />
-          <footer-button title="buttons.receive" :icon="['fal', 'arrow-to-bottom']" routeName="receive" @click="routeTo" />
+          <footer-button title="buttons.transactions" :icon="['fas', 'list-ul']" routeName="account" @click="routeTo" />
+          <footer-button title="buttons.send" :icon="['fas', 'arrow-from-bottom']" routeName="send" @click="routeTo" />
+          <footer-button title="buttons.receive" :icon="['fas', 'arrow-to-bottom']" routeName="receive" @click="routeTo" />
         </div>
         <portal-target v-else ref="footerSlot" name="footer-slot" @change="footerSlotChanged"></portal-target>
       </section>

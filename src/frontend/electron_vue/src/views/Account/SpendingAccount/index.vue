@@ -10,10 +10,10 @@
 
     <portal to="footer-slot">
       <div style="display: flex; justify-content: center">
-        <footer-button title="buttons.transactions" :icon="['far', 'list-ul']" routeName="account" @click="routeTo" />
-        <footer-button title="buttons.send" :icon="['fal', 'arrow-from-bottom']" routeName="send" @click="routeTo" />
-        <footer-button title="buttons.receive" :icon="['fal', 'arrow-to-bottom']" routeName="receive" @click="routeTo" />
-        <footer-button v-if="mutations.length > 0" title="buttons.download" :icon="['fal', 'download']" @click="downloadCSV" />
+        <footer-button title="buttons.transactions" :icon="['fas', 'list-ul']" routeName="account" @click="routeTo" />
+        <footer-button title="buttons.send" :icon="['fas', 'arrow-from-bottom']" routeName="send" @click="routeTo" />
+        <footer-button title="buttons.receive" :icon="['fas', 'arrow-to-bottom']" routeName="receive" @click="routeTo" />
+        <footer-button v-if="mutations.length > 0" title="buttons.download" :icon="['fas', 'download']" @click="downloadCSV" />
       </div>
     </portal>
   </div>

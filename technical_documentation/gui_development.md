@@ -15,11 +15,9 @@ Notes:
 * You can't/shouldn't run both versions simultaneously unless you change the ports of one of them 
 
 Troubleshooting:
-* `error An unexpected error occurred: "https://npm.fontawesome.com/@fortawesome%2ffontawesome-pro: authentication required".
-` Unfortunately currently it is not possible to run without a license for fontawesome pro, which the developers do have for releases but that we cannot share the key of with end users.
-To add your own license if you have one
+* If you previously configured npm/yarn to use the Font Awesome Pro registry, remove that override so packages resolve from the default npm registry.
 ```
-npm config set "@fortawesome:registry" "https://npm.fontawesome.com/"
-npm config set "//npm.fontawesome.com/:_authToken=YOURAUTHTOKENGOESHERE"
+npm config delete "@fortawesome:registry"
+npm config delete "//npm.fontawesome.com/:_authToken"
 ```
-We are still looking into ways to allow users to run without this dependency for development, pull requests welcome.
+The electron and lite frontends now use Font Awesome Free packages, so no Pro license token is required for local development.

@@ -6,7 +6,7 @@
       </span>
       <span v-else>
         {{ value }}
-        <fa-icon :icon="['fal', 'copy']" class="copy" />
+        <fa-icon :icon="['fas', 'copy']" class="copy" />
       </span>
     </span>
   </div>
