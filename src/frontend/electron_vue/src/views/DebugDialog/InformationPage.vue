@@ -15,7 +15,7 @@
         <div>Data dir</div>
         <div class="path-row">
           <div @click="openFile(clientInfo.datadir_path)" class="list-item-icon">
-            <fa-icon :icon="['fal', 'file-search']" />
+            <fa-icon :icon="['fas', 'file-search']" />
           </div>
           <div class="selectable">{{ clientInfo.datadir_path }}</div>
         </div>
@@ -24,7 +24,7 @@
         <div>Log file</div>
         <div class="path-row">
           <div @click="openFile(clientInfo.logfile_path)" class="list-item-icon">
-            <fa-icon :icon="['fal', 'file-search']" />
+            <fa-icon :icon="['fas', 'file-search']" />
           </div>
           <div class="selectable">
             {{ clientInfo.logfile_path }}

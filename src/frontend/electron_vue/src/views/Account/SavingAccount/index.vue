@@ -86,18 +86,18 @@
             :style="{ justifyContent: !showOverFlowArrowRight && !showOverFlowArrowLeft ? 'center' : null }"
           >
             <div @click="scrollToStart" class="scroll-arrow-left" v-if="showOverFlowArrowLeft">
-              <fa-icon class="pen" :icon="['fal', 'fa-long-arrow-left']" />
+              <fa-icon class="pen" :icon="['fas', 'fa-long-arrow-left']" />
             </div>
             <div @click="scrollToEnd" class="scroll-arrow-right" v-if="showOverFlowArrowRight">
-              <fa-icon class="pen" :icon="['fal', 'fa-long-arrow-right']" />
+              <fa-icon class="pen" :icon="['fas', 'fa-long-arrow-right']" />
             </div>
-            <footer-button title="buttons.info" :icon="['fal', 'info-circle']" routeName="account" @click="routeTo" />
-            <footer-button title="buttons.saving_key" :icon="['fal', 'key']" routeName="link-saving-account" @click="routeTo" />
-            <footer-button title="buttons.transactions" :icon="['far', 'list-ul']" routeName="transactions" @click="routeTo" />
-            <footer-button title="buttons.send" :icon="['fal', 'arrow-from-bottom']" routeName="send-saving" @click="routeTo" />
-            <footer-button :class="optimiseButtonClass" title="buttons.optimise" :icon="['fal', 'redo-alt']" routeName="optimise-account" @click="routeTo" />
-            <footer-button v-if="renewButtonVisible" title="buttons.renew" :icon="['fal', 'redo-alt']" routeName="renew-account" @click="routeTo" />
-            <footer-button title="buttons.download" :icon="['fal', 'download']" @click="downloadCSV" />
+            <footer-button title="buttons.info" :icon="['fas', 'info-circle']" routeName="account" @click="routeTo" />
+            <footer-button title="buttons.saving_key" :icon="['fas', 'key']" routeName="link-saving-account" @click="routeTo" />
+            <footer-button title="buttons.transactions" :icon="['fas', 'list-ul']" routeName="transactions" @click="routeTo" />
+            <footer-button title="buttons.send" :icon="['fas', 'arrow-from-bottom']" routeName="send-saving" @click="routeTo" />
+            <footer-button :class="optimiseButtonClass" title="buttons.optimise" :icon="['fas', 'redo-alt']" routeName="optimise-account" @click="routeTo" />
+            <footer-button v-if="renewButtonVisible" title="buttons.renew" :icon="['fas', 'redo-alt']" routeName="renew-account" @click="routeTo" />
+            <footer-button title="buttons.download" :icon="['fas', 'download']" @click="downloadCSV" />
           </div>
         </div>
         xx

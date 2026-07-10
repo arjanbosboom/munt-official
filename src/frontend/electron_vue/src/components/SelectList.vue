@@ -4,7 +4,7 @@
       {{ typeof selected === "object" ? selected.label : selected }}
     </div>
     <div class="arrow" @click="open = !open">
-      <fa-icon :icon="['fal', 'chevron-down']" />
+      <fa-icon :icon="['fas', 'chevron-down']" />
     </div>
     <div class="items" :class="{ selectHide: !open }">
       <div

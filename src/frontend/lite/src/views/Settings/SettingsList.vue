@@ -8,13 +8,13 @@
     <router-link :to="{ name: 'view-recovery-phrase' }">
       <div class="settings-row">
         {{ $t("settings.view_recovery_phrase") }}
-        <fa-icon :icon="['fal', 'chevron-right']" class="arrow" />
+        <fa-icon :icon="['fas', 'chevron-right']" class="arrow" />
       </div>
     </router-link>
     <router-link :to="{ name: 'change-password' }">
       <div class="settings-row">
         {{ $t("settings.change_password") }}
-        <fa-icon :icon="['fal', 'chevron-right']" class="arrow" />
+        <fa-icon :icon="['fas', 'chevron-right']" class="arrow" />
       </div>
     </router-link>
     <div>

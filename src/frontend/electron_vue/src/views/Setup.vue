@@ -5,11 +5,11 @@
       <content-wrapper heading="setup.setup_your_wallet" v-if="current === 1">
         <div class="settings-row" @click="setupWallet(false)">
           {{ $t("setup.create_new") }}
-          <fa-icon :icon="['fal', 'chevron-right']" class="arrow" />
+          <fa-icon :icon="['fas', 'chevron-right']" class="arrow" />
         </div>
         <div class="settings-row" @click="setupWallet(true)">
           {{ $t("setup.recover_existing") }}
-          <fa-icon :icon="['fal', 'chevron-right']" class="arrow" />
+          <fa-icon :icon="['fas', 'chevron-right']" class="arrow" />
         </div>
       </content-wrapper>
 
