@@ -11839,9 +11839,10 @@ vue@^2.6.11, vue@^2.6.12:
     "@vue/compiler-sfc" "2.7.14"
     csstype "^3.1.0"
 
-"vuex-electron@https://github.com/devlz303/vuex-electron.git#v1.0.4":
-  version "1.0.4"
-  resolved "https://github.com/devlz303/vuex-electron.git#7812083e587dbc8853b692ae9ae25412cb650006"
+vuex-electron@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/vuex-electron/-/vuex-electron-1.0.3.tgz"
+  integrity sha512-fPv6nQa3yllKHy+8GT/xBMLw95slnLQRAV7Rddr1rNwc369vZvT6j9mQs7easwWgdk/Cnqqcq2Uay1SQE9KahQ==
   dependencies:
     deepmerge "^2.1.1"
     electron-store "^2.0.0"
