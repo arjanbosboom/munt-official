@@ -289,7 +289,9 @@ function createAboutWindow() {
 app.on("will-quit", event => {
   console.log("app.on:will-quit");
   if (libUnity === null || libUnity.isTerminated) return;
-  store.dispatch("app/SET_STATUS", AppStatus.shutdown);
+  if (!isDevelopment) {
+    store.dispatch("app/SET_STATUS", AppStatus.shutdown);
+  }
   event.preventDefault();
   libUnity.TerminateUnityLib();
 });
@@ -330,6 +332,8 @@ app.on("ready", async () => {
     // }
   }
 
+  // Clear stale shutdown state when restarting in development (hot reload / fast restarts).
+  store.dispatch("app/SET_STATUS", AppStatus.start);
   store.dispatch("app/SET_WALLET_VERSION", app.getVersion());
   libUnity.Initialize();
 
@@ -343,12 +347,20 @@ async function updateRate(seconds) {
     // use blockhut api instead of https://api.munt.org/api/v1/ticker
     //const response = await axios.get("https://blockhut.com/munt/munteuro.json");
     const response = await axios.get("https://munt.chainviewer.org/api/v1/ticker");
-    const currentRate = response.data.data.find(item => item.code.toLowerCase() === store.state.app.currency.value.toLowerCase());
+    const currencies = response && response.data ? response.data.data : null;
+    if (!Array.isArray(currencies)) {
+      throw new Error("Ticker response missing data array");
+    }
 
-    store.dispatch("app/SET_RATE", currentRate.rate);
-    store.dispatch("app/SET_CURRENCIES", response.data.data);
+    const currentRate = currencies.find(item => item.code.toLowerCase() === store.state.app.currency.value.toLowerCase());
+    if (currentRate && currentRate.rate != null) {
+      store.dispatch("app/SET_RATE", currentRate.rate);
+    }
+    store.dispatch("app/SET_CURRENCIES", currencies);
   } catch (error) {
-    console.error(error);
+    const code = error && error.code ? error.code : "UNKNOWN";
+    const message = error && error.message ? error.message : String(error);
+    console.warn(`updateRate failed (${code}): ${message}`);
   } finally {
     setTimeout(() => {
       updateRate(seconds);
@@ -358,7 +370,9 @@ async function updateRate(seconds) {
 
 function EnsureUnityLibTerminated(event) {
   if (libUnity === null || libUnity.isTerminated) return;
-  store.dispatch("app/SET_STATUS", AppStatus.shutdown);
+  if (!isDevelopment) {
+    store.dispatch("app/SET_STATUS", AppStatus.shutdown);
+  }
   event.preventDefault();
   libUnity.TerminateUnityLib();
 }

@@ -38,7 +38,9 @@ const app = {
       state.splashReady = true;
     },
     SET_STATUS(state, status) {
-      if (state.status === AppStatus.shutdown) return; // shutdown in progress, do not switch to other status
+      // In development the app can briefly enter shutdown during hot-reload/restart flows.
+      // Allow status recovery there so the UI does not get stuck on the shutdown screen.
+      if (state.status === AppStatus.shutdown && process.env.NODE_ENV === "production") return;
       state.status = status;
     },
     SET_THEME(state, theme) {

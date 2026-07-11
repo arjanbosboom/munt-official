@@ -74,21 +74,15 @@ export default {
   },
   methods: {
     onStatusChanged() {
-      let routeName;
       switch (this.status) {
         case AppStatus.setup:
-          routeName = "setup";
           break;
         case AppStatus.synchronize:
-          routeName = "account";
           this.updateProgress();
           break;
         case AppStatus.ready:
-          routeName = "account";
           break;
       }
-      if (routeName === undefined || this.$route.name === routeName) return;
-      this.$router.push({ name: routeName });
     },
     updateProgress() {
       clearTimeout(progressTimeout);
