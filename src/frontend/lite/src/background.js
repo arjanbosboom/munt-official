@@ -3,12 +3,20 @@
 
 import { app, protocol, Menu, BrowserWindow, shell } from "electron";
 import {
-  createProtocol
-  /* installVueDevtools */
-} from "vue-cli-plugin-electron-builder/lib";
+    const currencies = response && response.data ? response.data.data : null;
+    if (!Array.isArray(currencies)) {
+      throw new Error("Ticker response missing data array");
+    }
 
+    const currentRate = currencies.find(item => item.code.toLowerCase() === store.state.app.currency.value.toLowerCase());
+    if (currentRate && currentRate.rate != null) {
+      store.dispatch("app/SET_RATE", currentRate.rate);
+    }
+    store.dispatch("app/SET_CURRENCIES", currencies);
 const isDevelopment = process.env.NODE_ENV !== "production";
-const os = require("os");
+    const code = error && error.code ? error.code : "UNKNOWN";
+    const message = error && error.message ? error.message : String(error);
+    console.warn(`updateRate failed (${code}): ${message}`);
 
 import path from "path";
 import fs from "fs";
@@ -224,7 +232,9 @@ function createDebugWindow() {
 app.on("will-quit", event => {
   console.log("app.on:will-quit");
   if (libUnity === null || libUnity.isTerminated) return;
-  store.dispatch("app/SET_STATUS", AppStatus.shutdown);
+  if (!isDevelopment) {
+    store.dispatch("app/SET_STATUS", AppStatus.shutdown);
+  }
   event.preventDefault();
   libUnity.TerminateUnityLib();
 });
@@ -265,6 +275,8 @@ app.on("ready", async () => {
     // }
   }
 
+  // Clear stale shutdown state when restarting in development (hot reload / fast restarts).
+  store.dispatch("app/SET_STATUS", AppStatus.start);
   store.dispatch("app/SET_WALLET_VERSION", app.getVersion());
   libUnity.Initialize();
 
@@ -290,7 +302,9 @@ async function updateRate(seconds) {
 
 function EnsureUnityLibTerminated(event) {
   if (libUnity === null || libUnity.isTerminated) return;
-  store.dispatch("app/SET_STATUS", AppStatus.shutdown);
+  if (!isDevelopment) {
+    store.dispatch("app/SET_STATUS", AppStatus.shutdown);
+  }
   event.preventDefault();
   libUnity.TerminateUnityLib();
 }
