@@ -1798,11 +1798,30 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         // They will only slow the sync down
         if (IsInitialBlockDownload())
         {
-            if (pfrom->nStartingHeight < Checkpoints::LastCheckPointHeight() && Checkpoints::LastCheckPointHeight() != 0)
+            // During Initial Block Download (IBD), avoid using outbound peers that are
+            // still below the last checkpoint, as they cannot help us synchronize.
+            //
+            // However, do not disconnect inbound peers. On a mature or mostly inactive
+            // network, a fully synchronized node may still report IsInitialBlockDownload()
+            // because the chain tip is older than the IBD threshold. In that situation,
+            // new nodes typically connect with nStartingHeight == 0 and rely on inbound
+            // connections to bootstrap. Disconnecting them would prevent synchronization.
+            if (!pfrom->fInbound)
             {
-                LOCK(cs_main);
-                pfrom->fDisconnect = true;
-                return false;
+                if (pfrom->nStartingHeight < Checkpoints::LastCheckPointHeight() &&
+                    Checkpoints::LastCheckPointHeight() != 0)
+                {
+                    LOCK(cs_main);
+
+                    LogPrint(BCLog::NET,
+                            "Disconnecting outbound peer=%d: startheight=%d below checkpoint=%d during IBD\n",
+                            pfrom->GetId(),
+                            pfrom->nStartingHeight,
+                            Checkpoints::LastCheckPointHeight());
+
+                    pfrom->fDisconnect = true;
+                    return false;
+                }
             }
         }
 
@@ -2200,7 +2219,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         LOCK(cs_main);
         static bool fRegTest = Params().IsRegtest();
         static bool fRegTestLegacy = Params().IsRegtestLegacy();
-        if (IsInitialBlockDownload() && !pfrom->fWhitelisted && !fRegTest && !fRegTestLegacy)
+        if (IsInitialBlockDownload() && !pfrom->fInbound && !pfrom->fWhitelisted && !fRegTest && !fRegTestLegacy)
         {
             LogPrint(BCLog::NET, "Ignoring getheaders from peer=%d because node is in initial block download\n", pfrom->GetId());
             return true;
@@ -2257,7 +2276,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         vRecv >> height >> num;
 
         LOCK(cs_main);
-        if (IsInitialBlockDownload() && !pfrom->fWhitelisted && !IsArgSet("-regtest"))
+        if (IsInitialBlockDownload() && !pfrom->fInbound && !pfrom->fWhitelisted && !IsArgSet("-regtest"))
         {
             LogPrint(BCLog::NET, "Ignoring getrheaders from peer=%d because node is in initial block download\n", pfrom->GetId());
             return true;
