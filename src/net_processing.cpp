@@ -1823,6 +1823,32 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                     return false;
                 }
             }
+            
+            // During Initial Block Download (IBD), avoid using outbound peers that are
+            // still below the last checkpoint, as they cannot help us synchronize.
+            //
+            // However, do not disconnect inbound peers. On a mature or mostly inactive
+            // network, a fully synchronized node may still report IsInitialBlockDownload()
+            // because the chain tip is older than the IBD threshold. In that situation,
+            // new nodes typically connect with nStartingHeight == 0 and rely on inbound
+            // connections to bootstrap. Disconnecting them would prevent synchronization.
+            if (IsInitialBlockDownload() && !pfrom->fInbound)
+            {
+                if (pfrom->nStartingHeight < Checkpoints::LastCheckPointHeight() &&
+                    Checkpoints::LastCheckPointHeight() != 0)
+                {
+                    LOCK(cs_main);
+
+                    LogPrint(BCLog::NET,
+                            "Disconnecting outbound peer=%d: startheight=%d below checkpoint=%d during IBD\n",
+                            pfrom->GetId(),
+                            pfrom->nStartingHeight,
+                            Checkpoints::LastCheckPointHeight());
+
+                    pfrom->fDisconnect = true;
+                    return false;
+                }
+            }
         }
 
         return true;
