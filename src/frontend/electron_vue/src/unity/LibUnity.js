@@ -1254,6 +1254,12 @@ class LibUnity {
     ipc.answerRenderer("NJSILibraryController.getUnifiedProgressAsync", async () => {
       console.log(`IPC: libraryController.getUnifiedProgressAsync()`);
       try {
+        if (!this.isCoreReady) {
+          return {
+            success: true,
+            result: 0
+          };
+        }
         let result = this.libraryController.getUnifiedProgress();
         return {
           success: true,
@@ -1267,6 +1273,13 @@ class LibUnity {
     ipc.on("NJSILibraryController.getUnifiedProgress", event => {
       console.log(`IPC: libraryController.getUnifiedProgress()`);
       try {
+        if (!this.isCoreReady) {
+          event.returnValue = {
+            success: true,
+            result: 0
+          };
+          return;
+        }
         let result = this.libraryController.getUnifiedProgress();
         event.returnValue = {
           success: true,
@@ -2621,6 +2634,12 @@ class LibUnity {
     ipc.answerRenderer("NJSIGenerationController.getGenerationAddressAsync", async () => {
       console.log(`IPC: generationController.getGenerationAddressAsync()`);
       try {
+        if (!this.isCoreReady) {
+          return {
+            success: true,
+            result: ""
+          };
+        }
         let result = this.generationController.getGenerationAddress();
         return {
           success: true,
@@ -2634,6 +2653,13 @@ class LibUnity {
     ipc.on("NJSIGenerationController.getGenerationAddress", event => {
       console.log(`IPC: generationController.getGenerationAddress()`);
       try {
+        if (!this.isCoreReady) {
+          event.returnValue = {
+            success: true,
+            result: ""
+          };
+          return;
+        }
         let result = this.generationController.getGenerationAddress();
         event.returnValue = {
           success: true,
@@ -2647,6 +2673,12 @@ class LibUnity {
     ipc.answerRenderer("NJSIGenerationController.getGenerationOverrideAddressAsync", async () => {
       console.log(`IPC: generationController.getGenerationOverrideAddressAsync()`);
       try {
+        if (!this.isCoreReady) {
+          return {
+            success: true,
+            result: ""
+          };
+        }
         let result = this.generationController.getGenerationOverrideAddress();
         return {
           success: true,
@@ -2660,6 +2692,13 @@ class LibUnity {
     ipc.on("NJSIGenerationController.getGenerationOverrideAddress", event => {
       console.log(`IPC: generationController.getGenerationOverrideAddress()`);
       try {
+        if (!this.isCoreReady) {
+          event.returnValue = {
+            success: true,
+            result: ""
+          };
+          return;
+        }
         let result = this.generationController.getGenerationOverrideAddress();
         event.returnValue = {
           success: true,
@@ -2699,6 +2738,12 @@ class LibUnity {
     ipc.answerRenderer("NJSIGenerationController.getAvailableCoresAsync", async () => {
       console.log(`IPC: generationController.getAvailableCoresAsync()`);
       try {
+        if (!this.isCoreReady) {
+          return {
+            success: true,
+            result: 0
+          };
+        }
         let result = this.generationController.getAvailableCores();
         return {
           success: true,
@@ -2712,6 +2757,13 @@ class LibUnity {
     ipc.on("NJSIGenerationController.getAvailableCores", event => {
       console.log(`IPC: generationController.getAvailableCores()`);
       try {
+        if (!this.isCoreReady) {
+          event.returnValue = {
+            success: true,
+            result: 0
+          };
+          return;
+        }
         let result = this.generationController.getAvailableCores();
         event.returnValue = {
           success: true,
@@ -2725,6 +2777,12 @@ class LibUnity {
     ipc.answerRenderer("NJSIGenerationController.getMinimumMemoryAsync", async () => {
       console.log(`IPC: generationController.getMinimumMemoryAsync()`);
       try {
+        if (!this.isCoreReady) {
+          return {
+            success: true,
+            result: 0
+          };
+        }
         let result = this.generationController.getMinimumMemory();
         return {
           success: true,
@@ -2738,6 +2796,13 @@ class LibUnity {
     ipc.on("NJSIGenerationController.getMinimumMemory", event => {
       console.log(`IPC: generationController.getMinimumMemory()`);
       try {
+        if (!this.isCoreReady) {
+          event.returnValue = {
+            success: true,
+            result: 0
+          };
+          return;
+        }
         let result = this.generationController.getMinimumMemory();
         event.returnValue = {
           success: true,
@@ -2751,6 +2816,12 @@ class LibUnity {
     ipc.answerRenderer("NJSIGenerationController.getMaximumMemoryAsync", async () => {
       console.log(`IPC: generationController.getMaximumMemoryAsync()`);
       try {
+        if (!this.isCoreReady) {
+          return {
+            success: true,
+            result: 0
+          };
+        }
         let result = this.generationController.getMaximumMemory();
         return {
           success: true,
@@ -2764,6 +2835,13 @@ class LibUnity {
     ipc.on("NJSIGenerationController.getMaximumMemory", event => {
       console.log(`IPC: generationController.getMaximumMemory()`);
       try {
+        if (!this.isCoreReady) {
+          event.returnValue = {
+            success: true,
+            result: 0
+          };
+          return;
+        }
         let result = this.generationController.getMaximumMemory();
         event.returnValue = {
           success: true,
