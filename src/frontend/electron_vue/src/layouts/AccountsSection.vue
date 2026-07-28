@@ -134,17 +134,25 @@ export default {
       }
     },
     addAccountFor(category) {
+      let routeName = null;
       switch (category) {
         case "saving":
-          this.$router.push({ name: "add-saving-account" });
+          routeName = "add-saving-account";
           break;
         case "spending":
-          this.$router.push({ name: "add-spending-account" });
+          routeName = "add-spending-account";
           break;
         default:
           console.log(`add account for ${category} not implemented yet`);
           break;
       }
+
+      if (!routeName || this.$route.name === routeName) return;
+
+      this.$router.push({ name: routeName }).catch(error => {
+        if (!error || error.name === "NavigationDuplicated") return;
+        throw error;
+      });
     }
   }
 };
