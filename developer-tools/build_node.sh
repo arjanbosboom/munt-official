@@ -29,6 +29,20 @@ cd depends
 make NO_QT=1 NO_UPNP=1 EXTRA_PACKAGES='qrencode node_addon_api electron_node_headers' -j ${NUM_PROCS}
 cd ..
 
+if [ ${PLATFORM_OS} = "mingw32" ] || [ ${PLATFORM_OS} = "mingw64" ]; then
+    LIBNODE_PATH="${DIR}/../depends/${PLATFORM}/lib/libnode.a"
+    if [ ! -f "${LIBNODE_PATH}" ]; then
+        echo "libnode.a missing after depends build; generating from node.def"
+        DLLTOOL_BIN=$(command -v x86_64-w64-mingw32-dlltool || command -v dlltool)
+        if [ -z "${DLLTOOL_BIN}" ]; then
+            echo "error: could not find dlltool to generate libnode.a"
+            exit 1
+        fi
+        mkdir -p "${DIR}/../depends/${PLATFORM}/lib"
+        "${DLLTOOL_BIN}" -d "${DIR}/../depends/patches/electron_node_headers/node.def" -y "${LIBNODE_PATH}"
+    fi
+fi
+
 mkdir build_node | true
 cd build_node
 

@@ -6,7 +6,7 @@ $(package)_sha256_hash=5ada31143933f0443d20769ae5942c4b1c5c80fe9f8a8221dae12ed9b
 
 $(package)_patches=node.def
 
-$(package)_makelibnode_mingw32=cp -f $($(package)_patch_dir)/node.def . && x86_64-w64-mingw32-dlltool -d node.def -y libnode.a
+$(package)_makelibnode_mingw32=cp -f $($(package)_patch_dir)/node.def . && DLLTOOL=$$(command -v x86_64-w64-mingw32-dlltool || command -v dlltool) && $$DLLTOOL -d node.def -y libnode.a
 $(package)_instlibnode_mingw32=&& mkdir $($(package)_staging_prefix_dir)/lib/ &&  cp libnode.a $($(package)_staging_prefix_dir)/lib
 
 define $(package)_preprocess_cmds

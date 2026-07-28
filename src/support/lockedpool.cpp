@@ -9,6 +9,8 @@
 #include "config/build-config.h"
 #endif
 
+#include <stdexcept>
+
 #ifdef WIN32
 #ifdef _WIN32_WINNT
 #undef _WIN32_WINNT
