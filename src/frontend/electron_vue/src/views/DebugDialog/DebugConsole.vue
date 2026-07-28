@@ -1,8 +1,8 @@
 <template>
   <div class="debug-console flex-col" v-if="show">
     <div class="output-buttons">
-      <fa-icon :icon="['fas', 'search-minus']" class="button" @click="decreaseFontSize" />
-      <fa-icon :icon="['fas', 'search-plus']" class="button" @click="increaseFontSize" />
+      <fa-icon :icon="['fas', 'magnifying-glass-minus']" class="button" @click="decreaseFontSize" />
+      <fa-icon :icon="['fas', 'magnifying-glass-plus']" class="button" @click="increaseFontSize" />
       <fa-icon :icon="['fas', 'eraser']" class="button" @click="clearOutput" />
     </div>
 

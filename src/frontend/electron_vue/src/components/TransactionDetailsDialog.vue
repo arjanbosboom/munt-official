@@ -3,7 +3,7 @@
     <div class="tx-date">{{ computedTimestamp }}</div>
     <div class="tx-amount">{{ computedAmount }}</div>
     <div class="tx-to">
-      <fa-icon :icon="['fas', 'long-arrow-down']" />
+      <fa-icon :icon="['fas', 'arrow-down-long']" />
     </div>
     <div class="tx-address">
       <clipboard-field :value="mutation.recipient_addresses" />

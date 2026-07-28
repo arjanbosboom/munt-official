@@ -5,7 +5,7 @@
         <span>{{ $t(this.options.title) }}</span>
         <div class="close" @click="onCancel">
           <span class="icon">
-            <fa-icon :icon="['fas', 'times']" />
+            <fa-icon :icon="['fas', 'xmark']" />
           </span>
         </div>
       </div>

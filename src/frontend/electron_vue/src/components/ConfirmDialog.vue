@@ -5,7 +5,7 @@
         <span :class="type">{{ title }}</span>
         <div class="close" @click="closeModal">
           <span class="icon">
-            <fa-icon :icon="['fas', 'times']" />
+            <fa-icon :icon="['fas', 'xmark']" />
           </span>
         </div>
       </div>

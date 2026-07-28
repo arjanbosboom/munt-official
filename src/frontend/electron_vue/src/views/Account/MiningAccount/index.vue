@@ -22,7 +22,7 @@
                   <fa-icon :icon="['fas', 'copy']" />
                 </div>
                 <div @click="resetOverrideAddress" class="action-icon" v-if="usingOverride">
-                  <fa-icon :icon="['fas', 'undo']" />
+                  <fa-icon :icon="['fas', 'rotate-left']" />
                 </div>
                 <div @click="editAddress" class="action-icon">
                   <fa-icon :icon="['fas', 'pen']" />
@@ -83,7 +83,7 @@
                 v-if="currentMemorySize < maximumMemory"
                 class="warning"
                 :title="$t('mining.warning_performance')"
-                :icon="['fas', 'fa-exclamation-triangle']"
+                :icon="['fas', 'triangle-exclamation']"
               ></fa-icon>
             </div>
             <div class="flex-1 align-right">
@@ -129,7 +129,7 @@
       <div style="display: flex">
         <footer-button title="buttons.info" :icon="['fas', 'info-circle']" routeName="account" @click="routeTo" />
         <footer-button title="buttons.transactions" :icon="['fas', 'list-ul']" routeName="transactions" @click="routeTo" />
-        <footer-button title="buttons.send" :icon="['fas', 'arrow-from-bottom']" routeName="send-saving" @click="routeTo" />
+        <footer-button title="buttons.send" :icon="['fas', 'arrow-up']" routeName="send-saving" @click="routeTo" />
       </div>
     </portal>
   </div>

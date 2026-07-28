@@ -39,8 +39,8 @@
       <section class="footer">
         <div v-if="isSingleAccount" style="display: flex">
           <footer-button title="buttons.transactions" :icon="['fas', 'list-ul']" routeName="account" @click="routeTo" />
-          <footer-button title="buttons.send" :icon="['fas', 'arrow-from-bottom']" routeName="send" @click="routeTo" />
-          <footer-button title="buttons.receive" :icon="['fas', 'arrow-to-bottom']" routeName="receive" @click="routeTo" />
+          <footer-button title="buttons.send" :icon="['fas', 'arrow-up']" routeName="send" @click="routeTo" />
+          <footer-button title="buttons.receive" :icon="['fas', 'arrow-down']" routeName="receive" @click="routeTo" />
         </div>
         <portal-target v-else ref="footerSlot" name="footer-slot" @change="footerSlotChanged"></portal-target>
       </section>

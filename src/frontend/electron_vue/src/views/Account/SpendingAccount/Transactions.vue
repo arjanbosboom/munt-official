@@ -59,7 +59,7 @@ export default {
         case 1: // CONFIRMING
           return "shield";
         case 2: // CONFIRMED
-          return "shield-check";
+          return "circle-check";
         case 3: // ABANDONED
         case 4: // CONFLICTED
           return "ban";
