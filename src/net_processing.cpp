@@ -1545,6 +1545,12 @@ static void SendMempool(CNode* pto, unsigned int maxEntries = std::numeric_limit
     }
 }
 
+// Requires cs_main.
+static bool IsAtBestKnownTip()
+{
+    return chainActive.Tip() != nullptr && chainActive.Tip() == pindexBestHeader;
+}
+
 bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStream& vRecv, int64_t nTimeReceived, const CChainParams& chainparams, CConnman& connman, const std::atomic<bool>& interruptMsgProc)
 {
     LogPrint(BCLog::NET, "received: %s (%u bytes) peer=%d\n", SanitizeString(strCommand), vRecv.size(), pfrom->GetId());
@@ -2057,8 +2063,10 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                 {
                     LogPrint(BCLog::NET, "transaction (%s) inv sent in violation of protocol peer=%d\n", inv.hash.ToString(), pfrom->GetId());
                 }
-                else if (!fAlreadyHave && !fImporting && !fReindex && (!IsInitialBlockDownload() || IsPartialSyncActive()))
-                {
+                else if (!fAlreadyHave && !fImporting && !fReindex &&
+                    (!IsInitialBlockDownload() ||
+                    IsAtBestKnownTip() ||
+                    IsPartialSyncActive())) {
                     pfrom->AskFor(inv);
                 }
             }
